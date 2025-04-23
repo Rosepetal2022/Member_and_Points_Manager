@@ -1,4 +1,12 @@
-import logo from './logo.svg';
+
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Login from './pages/Login';
+import MemberHome from './pages/MemberHome';
+import AdminHome from './pages/AdminHome';
+
 import './App.css';
 
 function App() {
