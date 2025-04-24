@@ -3,6 +3,17 @@ body {
   line-height: 1.7;
   padding: 2rem; }
 
+
+/*START: Login Card */
+#login-card {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  padding: 2%;
+  margin-top: 5%;
+}
+/*END: Login Card */
+
 /*START: Footer styles*/
 #main-footer {
   position: fixed;
