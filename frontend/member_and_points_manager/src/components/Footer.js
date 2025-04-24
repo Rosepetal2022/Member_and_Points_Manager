@@ -1,12 +1,13 @@
-
-import React from 'react';
-
 const Footer = () => {
     return (
-        <div>
-            <h1>Footer works!</h1>
-        </div>
+      <>
+      <footer id="main-footer">
+        <div className="text-center footer-div">
+          &copy;{new Date().getFullYear()} Rachel Spears, Tessa Melli, Brandon Oyama
+          </div>
+      </footer>
+      </>
     );
-};
-
-export default Footer;
+  };
+  
+  export default Footer;
