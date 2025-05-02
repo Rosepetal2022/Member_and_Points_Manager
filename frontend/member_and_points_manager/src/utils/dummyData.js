@@ -165,3 +165,5 @@ const horseShows = [
         { division: 'Children Hunter', pointsEarned: 30 }
       ]
     }]
+
+    export default horseShows;

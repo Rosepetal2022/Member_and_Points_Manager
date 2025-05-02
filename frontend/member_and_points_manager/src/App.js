@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import MemberHome from './pages/MemberHome';
 import AdminHome from './pages/AdminHome';
+import PointsList from './pages/PointsList';
 
 import './App.css';
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/MemberHome" element={<MemberHome />} />
           <Route path="/AdminHome" element={<AdminHome />} />
+          <Route path="/Points" element={<PointsList />} />
         </Routes>
        <Footer />
       </Router>
