@@ -20,7 +20,7 @@ app.listen(PORT,()=>{
 })
 
 // Create a member
-app.post('/members', (request, response) => {
+app.post('/members', async (request, response) => {
     try {
         const { first_name, last_name, date_of_birth, email_address, street_address, city, zip_code, phone_number} = request.body;
         const newMember = await pool.query(
