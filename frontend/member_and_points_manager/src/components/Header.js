@@ -8,15 +8,14 @@ const Header = () => {
     return (
         <Navbar className="my-2" color="dark" dark expand="md">
                 <NavbarBrand href="/">
-                LOGO Goes Here
-                    {/* <img
+                    <img
                         alt="logo"
-                        src="/logo-white.svg"
+                        src={require('../images/logo.png')} 
                         style={{
-                            height: 40,
-                            width: 40
+                            height: 150,
+                            width: 150
                         }}
-                    /> */}
+                    />
                 </NavbarBrand>
                 <Nav className="ml-auto" navbar>
                     <NavItem>
@@ -27,6 +26,9 @@ const Header = () => {
                     </NavItem>
                     <NavItem>
                         <NavLink href="/MemberHome">Members</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink href="/Points">All Points</NavLink>
                     </NavItem>
                 </Nav>
         </Navbar>
