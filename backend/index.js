@@ -1,10 +1,10 @@
-// import express from "express";
-// import {PORT} from "./config.js";
 require('dotenv').config();
 
 const { PORT } = require("./config.js");
 const express = require("express");
 const app = express();
+const cors = require('cors');  
+// const pool = require("./db");
 
 const jwt = require('jsonwebtoken');
 
@@ -12,7 +12,6 @@ const jwt = require('jsonwebtoken');
 // const users = [{name: 'oyama'}, {name:'rachel'}, {name:'tessa'}]
 const users = []
 
-const cors = require('cors');  
 // const pool = require("./database.sql");
 
 app.use(express.json());
