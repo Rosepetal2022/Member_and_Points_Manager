@@ -1,7 +1,10 @@
 import express from "express";
 import {PORT} from "./config.js";
+require('dotenv').config()
 
 const app = express();
+
+const jwt = require('jsonwebtoken')
 
 app.use(express.json())
 
