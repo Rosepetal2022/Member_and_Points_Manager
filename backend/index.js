@@ -4,6 +4,7 @@ const { PORT } = require("./config.js");
 const express = require("express");
 const app = express();
 const cors = require('cors');  
+const bcrypt = require('bcrypt');
 // const pool = require("./db");
 
 const jwt = require('jsonwebtoken');
@@ -26,10 +27,18 @@ app.get('/testUsers', (req,res)=>{
     res.json(users)
 })
 
-app.post('/newUser', (req, res)=>{
-    const user = {name: req.body.name, password: req.body.password}
-    users.push(user) // will create new record in database
-    res.status(201).send() // new record created
+app.post('/newUser', async (req, res)=>{
+    try {
+        const salt = await  bcrypt.genSalt();
+        const hashPassword = await bcrypt.hash(req.body.password, salt);
+        console.log(salt);
+        console.log(hashPassword);
+        const user = {name: req.body.name, password: req.body.hashPassword};
+        users.push(user); // will create new record in database
+        res.status(201).send(); // new record created
+    } catch {
+        res.status(500); // error during the send up of the new user
+    }
 })
 
 app.post('/login', (req, res)=>{
