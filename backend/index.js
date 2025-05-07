@@ -1,23 +1,25 @@
-import express from "express";
-import {PORT} from "./config.js";
+require('dotenv').config();
 
+const { PORT } = require("./config.js");
 const express = require("express");
 const app = express();
+const cors = require('cors');  
+// const pool = require("./db");
+
+const jwt = require('jsonwebtoken');
 
 // testing database
 // const users = [{name: 'oyama'}, {name:'rachel'}, {name:'tessa'}]
 const users = []
 
-const cors = rerqire('cors');  
-const pool = require("./db");
+// const pool = require("./database.sql");
 
 app.use(express.json());
 app.use(cors());
 
-
 app.get('/',(request,response)=>{
     console.log(request)
-    return response.status(234).send('Entering member and points manager')
+    return response.status(200).send('Entering member and points manager')
 })
 
 app.get('/testUsers', (req,res)=>{
