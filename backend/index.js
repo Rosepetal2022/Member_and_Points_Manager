@@ -4,6 +4,7 @@ const { PORT } = require("./config.js");
 const express = require("express");
 const app = express();
 const cors = require('cors');  
+const bcrypt = require('bcrypt');
 // const pool = require("./db");
 
 const jwt = require('jsonwebtoken');
@@ -26,22 +27,34 @@ app.get('/testUsers', (req,res)=>{
     res.json(users)
 })
 
-app.post('/newUser', (req, res)=>{
-    const user = {name: req.body.name, password: req.body.password}
-    users.push(user) // will create new record in database
-    res.status(201).send() // new record created
+app.post('/newUser', async (req, res)=>{
+    try {
+        const salt = await  bcrypt.genSalt();
+        const hashPassword = await bcrypt.hash(req.body.password, salt);
+        console.log(salt);
+        console.log(hashPassword);
+        const user = {name: req.body.name, password: hashPassword};
+        users.push(user); // will create new record in database
+        res.status(201).send(); // new record created
+    } catch {
+        res.status(500); // error during the send up of the new user
+    }
 })
 
-app.post('/login', (req, res)=>{
-    const user = users.find(user=> user.name = req.body.name)
+app.post('/login', async (req, res)=>{
+    const user = users.find(user=> user.name === req.body.name)
     if (user ==null){
         return res.status(400).send('Cannot find user for horses :(')
     }
     // connect to database to get password and compare database password to passed in pwd
-    if (req.body.password == user.password){
-        res.send('logging in')
-    } else {
-        res.send('Login failed for user' + req.body.name)
+    try {
+       if  (await bcrypt.compare(req.body.password, user.password)){
+        res.send('Success')
+       } else {
+        res.send('Not allowed')
+       }
+    } catch {
+        res.status(500).send('Login failed for user' + req.body.name)
     }
 })
 
