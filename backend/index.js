@@ -23,7 +23,7 @@ app.get('/',(request,response)=>{
     return response.status(200).send('Entering member and points manager')
 })
 
-app.get('/testUsers', (req,res)=>{
+app.get('/testUsers', authenticateToken, (req,res)=>{
     res.json(users)
 })
 
@@ -49,7 +49,10 @@ app.post('/login', async (req, res)=>{
     // connect to database to get password and compare database password to passed in pwd
     try {
        if  (await bcrypt.compare(req.body.password, user.password)){
-        res.send('Success')
+        // res.send('Success')
+        const currentUser = {name: user};
+        const accessToken = jwt.sign(currentUser, process.env.ACCESS_TOKEN_SECRET);
+        res.json({accessToken: accessToken});
        } else {
         res.send('Not allowed')
        }
@@ -191,3 +194,15 @@ app.delete('/horses/:id', async (request, response) => {
         return response.status(500).json({ message: 'Error deleting horse' });
     }
 });
+
+// athentication
+function authenticateToken(req, res, next){
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (token == null) return res.sendStatus(401);
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user)=>{
+        if (err) return res.sendStatus(403); // not valid
+        req.user = user;
+        next();
+    });
+}
