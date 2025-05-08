@@ -3,6 +3,28 @@ body {
   line-height: 1.7;
   padding: 2rem; }
 
+:root {
+  --primary-color: #415a77;
+  --secondary-color: #3F784C;
+  --white: #ffffff;
+  --black: #000000;
+}
+
+  /*START: Button Styles*/
+  .primary-btn {
+    color: var(--white);
+    background-color: var(--primary-color); 
+  }
+
+  .secondary-btn {
+    color: var(--white);
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    padding: 5px 15px;
+    margin: 5px;
+  }
+
+  /*END: Button Styles*/
 
 /*START: Login Card */
 #login-card {
@@ -22,8 +44,38 @@ body {
   padding: 2rem;
   width: 100%;
   height: 5rem;
-  color: white;
+  color: var(--white);
   text-align: center;
-  background-color: #415a77; 
+  background-color: var(--pirmary-color); 
   }
 /*END: Footer styles*/
+
+/*START Member Dashboard*/
+.member-dashboard--container {
+  border: 1px solid var(--black);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 50px;
+}
+
+.member-dashboard--main-header {
+  padding: 20px;
+  text-align: center; 
+  color: var(--secondary-color);
+}
+
+.member-dashboard--info {
+  display: flex;
+  padding: 25px;
+  justify-content:space-around;
+}
+
+.member-dashboard--options {
+  display:flex;
+}
+
+.member-dashboard--card {
+  border: 2px solid var(--black);
+  border-radius: 10px;
+}
+/*END Member Dashboard*/
