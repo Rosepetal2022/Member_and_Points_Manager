@@ -65,10 +65,10 @@ app.listen(PORT,()=>{
 // Create a member
 app.post('/members', async (request, response) => {
     try {
-        const { first_name, last_name, date_of_birth, email_address, street_address, city, zip_code, phone_number} = request.body;
+        const { first_name, last_name, date_of_birth, email_address, street_address, city, zip_code, phone_number, member_status} = request.body;
         const newMember = await pool.query(
-            "INSERT INTO members (first_name, last_name, date_of_birth, email_address, street_address, city, zip_code, phone_number) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
-            [first_name, last_name, date_of_birth, email_address, street_address, city, zip_code, phone_number]
+            "INSERT INTO members (first_name, last_name, date_of_birth, email_address, street_address, city, zip_code, phone_number, member_status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+            [first_name, last_name, date_of_birth, email_address, street_address, city, zip_code, phone_number, member_status]
         );
         response.json(newMember.rows[0]);
         return response.status(201).json({ message: 'Member created', member: newMember.rows[0] });
@@ -98,10 +98,10 @@ app.get('/members/:id', async (request, response) => {
 app.patch('/members/:id', async (request, response) => {
     try {
         const { id } = request.params;
-        const { first_name, last_name, date_of_birth, email_address, street_address, city, zip_code, phone_number } = request.body;
+        const { first_name, last_name, date_of_birth, email_address, street_address, city, zip_code, phone_number, member_status } = request.body;
         const updatedMember = await pool.query(
-            "UPDATE members SET first_name = $1, last_name = $2, date_of_birth = $3, email_address = $4, street_address = $5, city = $6, zip_code = $7, phone_number = $8 WHERE member_id = $9 RETURNING *",
-            [first_name, last_name, date_of_birth, email_address, street_address, city, zip_code, phone_number, id]
+            "UPDATE members SET first_name = $1, last_name = $2, date_of_birth = $3, email_address = $4, street_address = $5, city = $6, zip_code = $7, phone_number = $8, member_status = $9, WHERE member_id = $10 RETURNING *",
+            [first_name, last_name, date_of_birth, email_address, street_address, city, zip_code, phone_number, member_status, id]
         );
         if (updatedMember.rows.length === 0) {
             return response.status(404).json({ message: 'Member not found' });
