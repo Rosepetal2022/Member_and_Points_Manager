@@ -1,4 +1,7 @@
 import React from 'react';
+import { FaEdit } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa';
+import { FaExchangeAlt } from 'react-icons/fa';
 
 const ownersData = [
   {
@@ -68,26 +71,33 @@ const MemberHome = () => {
           </tbody>
         </table>
       </div>
-      <h3>Options</h3>
+      <h3 class="member-dashboard--options-header">Options</h3>
       <div class="member-dashboard--options">
-            <div class="member-dashboard--card">Add A Horse
-              <img
-                        alt="Edit Icon"
-                        src={require('../images/edit.svg')} 
-                        style={{
-                            height: 150,
-                            width: 150
-                        }}
-                    />
+        <div class="member-dashboard--card">
+          <div><FaEdit style={{ height: 150, width: 50 }} /></div>
+          <div>Edit Horse</div>
+          
+        </div>
 
-            </div>
-            <div class="member-dashboard--card">Update A Horse</div>
-            <div class="member-dashboard--card">Delete A Horse</div>
-            <div class="member-dashboard--card">Transfer Ownership</div>
+        <div class="member-dashboard--card">
+          <div><FaEdit style={{ height: 150, width: 50 }} /></div>
+          <div>Add New Horse</div>
+          
+        </div>
 
+        <div class="member-dashboard--card">
+          <div><FaTrash style={{ height: 150, width: 50 }} /></div>
+          <div>Remove Horse Membership</div>
+          
+        </div>
+
+        <div class="member-dashboard--card">
+          <div><FaExchangeAlt style={{ height: 150, width: 50 }} /></div>
+          <div>Transfer Ownership</div>
+        </div>
       </div>
     </div>
-    
+
   );
 };
 
