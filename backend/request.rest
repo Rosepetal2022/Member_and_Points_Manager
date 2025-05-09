@@ -1,0 +1,18 @@
+GET http://localhost:8888/testUsers
+###
+POST http://localhost:8888/newUser
+Content-Type: application/json
+
+{
+    "name":"OYAMAB",
+    "password":"yamz"
+}
+
+###
+POST http://localhost:8888/login
+Content-Type: application/json
+
+{
+    "name":"OYAMAB",
+    "password":"yamz"
+}
