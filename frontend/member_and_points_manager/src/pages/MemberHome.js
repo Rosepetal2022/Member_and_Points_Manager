@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaEdit } from 'react-icons/fa';
 import { FaTrash } from 'react-icons/fa';
 import { FaExchangeAlt } from 'react-icons/fa';
@@ -18,9 +19,14 @@ const ownersData = [
 ];
 
 const MemberHome = () => {
+  const navigate = useNavigate();
   return (
     <div>
-      <h1 class="member-dashboard--main-header">Member Dashboard</h1>
+      <div class="main-member-container">
+        <div class="main-hero">
+          <h1 class="member-dashboard--main-header">Member Dashboard</h1>
+        </div>
+      </div>
       <div className="member-dashboard--container">
         {ownersData.map((owner, index) => (
           <div key={index} className="owner-section">
@@ -49,7 +55,7 @@ const MemberHome = () => {
       </div>
 
       <div className="horses-section">
-        <h3>Horses:</h3>
+        <h3 className='horses-section--header'>Horses</h3>
         <table>
           <thead>
             <tr>
@@ -73,26 +79,25 @@ const MemberHome = () => {
       </div>
       <h3 class="member-dashboard--options-header">Options</h3>
       <div class="member-dashboard--options">
-        <div class="member-dashboard--card">
-          <div><FaEdit style={{ height: 150, width: 50 }} /></div>
+        <div onClick={() => navigate('/EditHorse')} class="member-dashboard--card success">
+          <div><FaEdit style={{ height: 50, width: 50 }} /></div>
           <div>Edit Horse</div>
-          
+
         </div>
 
-        <div class="member-dashboard--card">
-          <div><FaEdit style={{ height: 150, width: 50 }} /></div>
+        <div onClick={() => navigate('/AddHorse')} class="member-dashboard--card success">
+          <div><FaEdit style={{ height: 50, width: 50 }} /></div>
           <div>Add New Horse</div>
-          
         </div>
 
-        <div class="member-dashboard--card">
-          <div><FaTrash style={{ height: 150, width: 50 }} /></div>
+        <div onClick={() => navigate('/RemoveHorse')} class="member-dashboard--card danger">
+          <div><FaTrash style={{ height: 50, width: 50 }} /></div>
           <div>Remove Horse Membership</div>
-          
+
         </div>
 
-        <div class="member-dashboard--card">
-          <div><FaExchangeAlt style={{ height: 150, width: 50 }} /></div>
+        <div onClick={() => navigate('/TransferHorse')} class="member-dashboard--card success">
+          <div><FaExchangeAlt style={{ height: 50, width: 50 }} /></div>
           <div>Transfer Ownership</div>
         </div>
       </div>
