@@ -27,7 +27,6 @@ VALUES ('Chris', 'Black', '2009-06-12', 'chris.black@fakeemail.com', '2036 Heron
 ('Oliver', 'Yellow', '1982-02-14', 'oliver.yellow@fakeemail.com', '9513 Maple Lane', 'Oregon City', 'OR', 97045, '206-848-3721', 'Professional'),
 ('Victor', 'Yellow', '2012-01-05', 'victor.yellow@fakeemail.com', '9513 Maple Lane', 'Oregon City', 'OR', 97045, '971-580-9045', 'Junior');
 
-
 -- Insert data into horses table
 INSERT INTO horses (horse_name, foaled_date, sex, color, hands, horse_size, breed)
 VALUES ('Cerafina', '2016-04-06', 'Gelding', 'Chestnut', 16.1, 'Horse', 'Arabian Horse'), 
@@ -44,7 +43,6 @@ VALUES ('Cerafina', '2016-04-06', 'Gelding', 'Chestnut', 16.1, 'Horse', 'Arabian
 ('Supernova', '2018-04-03', 'Gelding', 'Dun', 16.5, 'Horse', 'Appaloosa'),
 ('Star', '2020-03-24', 'Mare', 'Chestnut', 16.2, 'Horse', 'Hanovarian'),
 ('Thunder','2017-11-26', 'Gelding', 'Brown', 16, 'Horse', 'Dutch Warmblood');
-
 
 -- Insert data into divisions table
 INSERT INTO divisions (division_name, division_category)
@@ -66,12 +64,28 @@ VALUES ('Childrens Equitation', 'Equitation'),
 ('Low Adult Hunter', 'Hunter'),
 ('Amateur Owner Hunter', 'Hunter');
 
+-- Insert data into seasons table
+INSERT INTO seasons (show_year, season_start_date, season_end_date)
+VALUES (2022, '2021-12-01', '2022-11-30'),
+(2023, '2022-12-01', '2023-11-30'),
+(2024, '2023-12-01', '2024-11-30'),
+(2025, '2024-12-01', '2025-11-30'),
+(2026, '2025-12-01', '2026-11-30')
+
+-- Insert data into families table
+INSERT INTO families (family_name)
+VALUES('Blue Family'),
+('Brown Family'),
+('Green Family'), 
+('Red Family'), 
+('Smith Family'), 
+('Yellow Family')
 
 -- TODO:
--- Insert data into seasons table
+-- Insert data into horse owners table
+-- Insert data into family members table
 -- Insert data into shows table
 -- Insert data into classes table
--- Insert data into horse owners table
--- Insert data into families table
--- Insert data into family members table
+-- Insert data into class results table
+
 

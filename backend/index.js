@@ -62,6 +62,9 @@ app.listen(PORT,()=>{
     console.log(`Server is spinning on port: ${PORT}`);
 })
 
+
+// CRUD for Members
+
 // Create a member
 app.post('/members', async (request, response) => {
     try {
@@ -128,6 +131,8 @@ app.delete('/members/:id', async (request, response) => {
     }
 });
 
+// CRUD for horses
+
 // Create a horse
 app.post('/horses', async (request, response) => {
     try {
@@ -176,7 +181,6 @@ app.patch('/horses/:id', async (request, response) => {
     }
 });
 
-
 // Delete a horse
 app.delete('/horses/:id', async (request, response) => {
     try {
@@ -191,3 +195,215 @@ app.delete('/horses/:id', async (request, response) => {
         return response.status(500).json({ message: 'Error deleting horse' });
     }
 });
+
+// CRUD for seasons
+
+// Create a season
+
+app.post('/seasons', async (request, response) => {
+    try {
+        const { season_name, start_date, end_date } = request.body;
+        const newSeason = await pool.query(
+            "INSERT INTO seasons (season_name, start_date, end_date) VALUES ($1, $2, $3) RETURNING *",
+            [season_name, start_date, end_date]
+        );
+        response.json(newSeason.rows[0]);
+        return response.status(201).json({ message: 'Season created', season: newSeason.rows[0] });
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Error creating season' });
+    }
+    
+});
+
+// Display a season
+app.get('/seasons/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+        const season = await pool.query("SELECT * FROM seasons WHERE season_id = $1", [id]);
+        if (season.rows.length === 0) {
+            return response.status(404).json({ message: 'Season not found' });
+        }
+        return response.json(season.rows[0]);
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Error fetching season' });
+    }
+});
+
+// Update a season
+app.patch('/seasons/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+        const { season_name, start_date, end_date } = request.body;
+        const updatedSeason = await pool.query(
+            "UPDATE seasons SET season_name = $1, start_date = $2, end_date = $3 WHERE season_id = $4 RETURNING *",
+            [season_name, start_date, end_date, id]
+        );
+        if (updatedSeason.rows.length === 0) {
+            return response.status(404).json({ message: 'Season not found' });
+        }
+        return response.json(updatedSeason.rows[0]);
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Error updating season' });
+    }
+});
+
+// Delete a season
+app.delete('/seasons/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+        const deletedSeason = await pool.query("DELETE FROM seasons WHERE season_id = $1 RETURNING *", [id]);
+        if (deletedSeason.rows.length === 0) {
+            return response.status(404).json({ message: 'Season not found' });
+        }
+        return response.json({ message: 'Season deleted', season: deletedSeason.rows[0] });
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Error deleting season' });
+    }
+});
+
+// CRUD for divisions
+
+// Create a division
+app.post('/divisions', async (request, response) => {
+    try {
+        const { division_name, season_id } = request.body;
+        const newDivision = await pool.query(
+            "INSERT INTO divisions (division_name, season_id) VALUES ($1, $2) RETURNING *",
+            [division_name, season_id]
+        );
+        response.json(newDivision.rows[0]);
+        return response.status(201).json({ message: 'Division created', division: newDivision.rows[0] });
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Error creating division' });
+    }
+    
+});
+
+// Display a division
+app.get('/divisions/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+        const division = await pool.query("SELECT * FROM divisions WHERE division_id = $1", [id]);
+        if (division.rows.length === 0) {
+            return response.status(404).json({ message: 'Division not found' });
+        }
+        return response.json(division.rows[0]);
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Error fetching division' });
+    }
+});
+
+// Update a division
+app.patch('/divisions/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+        const { division_name, season_id } = request.body;
+        const updatedDivision = await pool.query(
+            "UPDATE divisions SET division_name = $1, season_id = $2 WHERE division_id = $3 RETURNING *",
+            [division_name, season_id, id]
+        );
+        if (updatedDivision.rows.length === 0) {
+            return response.status(404).json({ message: 'Division not found' });
+        }
+        return response.json(updatedDivision.rows[0]);
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Error updating division' });
+    }
+});
+
+// Delete a division
+app.delete('/divisions/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+        const deletedDivision = await pool.query("DELETE FROM divisions WHERE division_id = $1 RETURNING *", [id]);
+        if (deletedDivision.rows.length === 0) {
+            return response.status(404).json({ message: 'Division not found' });
+        }
+        return response.json({ message: 'Division deleted', division: deletedDivision.rows[0] });
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Error deleting division' });
+    }
+});
+
+// CRUD for families
+
+// Create a family
+app.post('/families', async (request, response) => {
+    try {
+        const { family_name } = request.body;
+        const newFamily = await pool.query(
+            "INSERT INTO families (family_name) VALUES ($1) RETURNING *",
+            [family_name]
+        );
+        response.json(newFamily.rows[0]);
+        return response.status(201).json({ message: 'Family created', family: newFamily.rows[0] });
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Error creating family' });
+    } 
+});
+
+// Display a family
+app.get('/families/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+        const family = await pool.query("SELECT * FROM families WHERE family_id = $1", [id]);
+        if (family.rows.length === 0) {
+            return response.status(404).json({ message: 'Family not found' });
+        }
+        return response.json(family.rows[0]);
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Error fetching family' });
+    }
+});
+
+// Update a family
+app.patch('/families/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+        const { family_name } = request.body;
+        const updatedFamily = await pool.query(
+            "UPDATE families SET family_name = $1 WHERE family_id = $2 RETURNING *",
+            [family_name, id]
+        );
+        if (updatedFamily.rows.length === 0) {
+            return response.status(404).json({ message: 'Family not found' });
+        }
+        return response.json(updatedFamily.rows[0]);
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Error updating family' });
+    }
+});
+
+// Delete a family
+app.delete('/families/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+        const deletedFamily = await pool.query("DELETE FROM families WHERE family_id = $1 RETURNING *", [id]);
+        if (deletedFamily.rows.length === 0) {
+            return response.status(404).json({ message: 'Family not found' });
+        }
+        return response.json({ message: 'Family deleted', family: deletedFamily.rows[0] });
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ message: 'Error deleting family' });
+    }
+});
+
+// TODO:
+// CRUD for horse owners
+// CRUD for shows
+// CRUD for classes
+// CRUD for class entries
+// CRUD for class results
+// CRUD for family members

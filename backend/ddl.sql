@@ -32,6 +32,7 @@ CREATE TABLE horses (
 -- Creating the table for seasons
 CREATE TABLE seasons (
     season_id SERIAL PRIMARY KEY,
+    show_year INT,
     season_start_date DATE,
     season_end_date DATE
 );
@@ -98,7 +99,6 @@ CREATE TABLE result_disputes (
     place_dispute BOOLEAN,
     award_dispute BOOLEAN,
     rider_comments VARCHAR(255)
-
 );
 
 -- Creating the table for families
