@@ -23,7 +23,7 @@ app.get('/',(request,response)=>{
     return response.status(200).send('Entering member and points manager')
 })
 
-app.get('/testUsers', (req,res)=>{
+app.get('/testUsers', authenticateToken, (req,res)=>{
     res.json(users)
 })
 
@@ -43,13 +43,23 @@ app.post('/newUser', async (req, res)=>{
 
 app.post('/login', async (req, res)=>{
     const user = users.find(user=> user.name === req.body.name)
-    if (user ==null){
+    // possible connection based on below query calls 
+    // const user = await pool.query('SELECT member_id, name, password from Users where name = $1', [req.body.name])
+    if (user ==null){ // user.rows.length ===0{
         return res.status(400).send('Cannot find user for horses :(')
     }
     // connect to database to get password and compare database password to passed in pwd
     try {
        if  (await bcrypt.compare(req.body.password, user.password)){
-        res.send('Success')
+        // res.send('Success')
+        const currentUser = {name: user};
+        // const permission = await pool.query('Select permissions from permissions where member_id = $1',
+        //if (permission == 'USER')
+        const accessToken = jwt.sign(currentUser, process.env.ACCESS_TOKEN_SECRET);
+        res.json({accessToken: accessToken});
+        // else if (permission == 'ADMIN')
+        // const accessToken = jwt.sign(currentUser, process.env.ACCESS_TOKEN_SECRET_ADMIN);
+        // res.json({accessToken: accessToken});
        } else {
         res.send('Not allowed')
        }
@@ -61,6 +71,19 @@ app.post('/login', async (req, res)=>{
 app.listen(PORT,()=>{
     console.log(`Server is spinning on port: ${PORT}`);
 })
+
+
+// athentication -- testing for conditional checking for access to paths
+function authenticateToken(req, res, next){
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (token == null) return res.sendStatus(401);
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user)=>{
+        if (err) return res.sendStatus(403); // not valid
+        req.user = user;
+        next();
+    });
+}
 
 
 // CRUD for Members
@@ -407,3 +430,4 @@ app.delete('/families/:id', async (request, response) => {
 // CRUD for class entries
 // CRUD for class results
 // CRUD for family members
+
