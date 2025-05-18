@@ -7,7 +7,10 @@ import Login from './pages/Login';
 import MemberHome from './pages/MemberHome';
 import AdminHome from './pages/AdminHome';
 import PointsList from './pages/PointsList';
-
+import AddHorse from './pages/AddHorse';
+import EditHorse from './pages/EditHorse';
+import RemoveHorse from './pages/RemoveHorse';
+import TransferHorse from './pages/TransferHorse';
 import './App.css';
 
 function App() {
@@ -20,6 +23,10 @@ function App() {
           <Route path="/MemberHome" element={<MemberHome />} />
           <Route path="/AdminHome" element={<AdminHome />} />
           <Route path="/Points" element={<PointsList />} />
+          <Route path="/AddHorse" element={<AddHorse />} />
+          <Route path="/EditHorse" element={<EditHorse />} />
+          <Route path="/RemoveHorse" element={<RemoveHorse />} />
+          <Route path="/TransferHorse" element={<TransferHorse />} />
         </Routes>
        <Footer />
       </Router>
