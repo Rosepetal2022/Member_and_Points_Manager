@@ -7,6 +7,7 @@ body {
 :root {
   --primary-color: #415a77;
   --secondary-color: #3F784C;
+  --tertiary-color: #e5e5e5;
   --white: #ffffff;
   --black: #000000;
 }
@@ -162,5 +163,24 @@ body {
 
 }
 
-
 /*END Member Dashboard*/
+
+/*START Global horse styles*/
+#horse--main-card {
+  width: 70%;
+  margin: 50px 0px 100px 0px;
+  background-color: var(--tertiary-color);
+}
+/*EDIT Global horse styles*/
+
+/*START AddHorse*/
+/*END AddHorse*/
+
+/*START EditHorse*/
+/*END EditHorse*/
+
+/*START RemoveHorse*/
+/*END RemoveHorse*/
+
+/*START TransferHorse*/
+/*END TransferHorse*/
