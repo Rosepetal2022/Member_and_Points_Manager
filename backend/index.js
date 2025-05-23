@@ -584,11 +584,11 @@ app.post('/classes', async (request, response) => {
 app.get('/classes/:id', async (request, response) => {
     try {
         const { id } = request.params;
-        const class = await pool.query("SELECT * FROM classes WHERE class_id = $1", [id]);
-        if (class.rows.length === 0) {
+        const class_info = await pool.query("SELECT * FROM classes WHERE class_id = $1", [id]);
+        if (class_info.rows.length === 0) {
             return response.status(404).json({ message: 'Class not found' });
         }
-        return response.json(class.rows[0]);
+        return response.json(class_info.rows[0]);
     } catch (error) {
         console.error(error);
         return response.status(500).json({ message: 'Error fetching class' });
