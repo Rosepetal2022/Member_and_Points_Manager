@@ -81,11 +81,105 @@ VALUES('Blue Family'),
 ('Smith Family'), 
 ('Yellow Family')
 
--- TODO:
+
 -- Insert data into horse owners table
--- Insert data into family members table
+INSERT INTO horse_owners (member_id, horse_id, effective_date)
+VALUES (
+    (SELECT member_id FROM members WHERE first_name = 'Tom' AND last_name = 'Smith'), 
+    (SELECT horse_id FROM horses WHERE horse_name = 'Cerafina'), 
+    '2022-01-01'),
+
+    (
+    (SELECT member_id FROM members WHERE first_name = 'John' AND last_name = 'Doe'), 
+    (SELECT horse_id FROM horses WHERE horse_name = 'Starlight'), 
+    '2022-02-02'),
+
+    (
+    (SELECT member_id FROM members WHERE first_name = 'Alice' AND last_name = 'Johnson'), 
+    (SELECT horse_id FROM horses WHERE horse_name = 'Moonlight'), 
+    '2022-03-03'),
+
+    (
+    (SELECT member_id FROM members WHERE first_name = 'Emily' AND last_name = 'Clark'), 
+    (SELECT horse_id FROM horses WHERE horse_name = 'Sunshine'), 
+    '2022-04-04'),
+
+    (
+    (SELECT member_id FROM members WHERE first_name = 'Michael' AND last_name = 'Smith'), 
+    (SELECT horse_id FROM horses WHERE horse_name = 'Twilight'), 
+    '2022-05-05'),
+
+    (
+    (SELECT member_id FROM members WHERE first_name = 'Laura' AND last_name = 'Green'), 
+    (SELECT horse_id FROM horses WHERE horse_name = 'Aurora'), 
+    '2022-06-06'),
+
+    (
+    (SELECT member_id FROM members WHERE first_name = 'Nancy' AND last_name = 'Blue'), 
+    (SELECT horse_id FROM horses WHERE horse_name = 'Galaxy'), 
+    '2022-07-07'),
+
+    (
+    (SELECT member_id FROM members WHERE first_name = 'Oliver' AND last_name = 'Yellow'), 
+    (SELECT horse_id FROM horses WHERE horse_name = 'Comet'), 
+    '2022-08-08'),
+
+    (
+    (SELECT member_id FROM members WHERE first_name = 'Peter' AND last_name = 'Purple'), 
+    (SELECT horse_id FROM horses WHERE horse_name = 'Meteor'), 
+    '2022-09-09'),
+
+    (
+    (SELECT member_id FROM members WHERE first_name = 'Quinn' AND last_name = 'Gray'), 
+    (SELECT horse_id FROM horses WHERE horse_name = 'Nebula'), 
+    '2022-10-10'),
+
+    (
+    (SELECT member_id FROM members WHERE first_name = 'Sam' AND last_name = 'Green'), 
+    (SELECT horse_id FROM horses WHERE horse_name = 'Starburst'), 
+    '2022-11-11'),
+
+    (
+    (SELECT member_id FROM members WHERE first_name = 'Uma' AND last_name = 'Red'), 
+    (SELECT horse_id FROM horses WHERE horse_name = 'Supernova'), 
+    '2022-12-12');
+
+
 -- Insert data into shows table
+INSERT INTO shows (season_id, show_name, show_start_date, show_end_date, show_type, show_contact_name, show_contact_phone, show_contact_email, show_venue, show_address, result_status)
+VALUES (
+    (SELECT season_id FROM seasons WHERE show_year = 2025),
+    'Spring Fling','2025-04-01','2025-04-05','Hunter/Jumper','Amanda Brooks','503-555-1829','amanda.brooks@fakeemail.com', 'Evergreen Meadows Equestrian Center','4412 NE Canyon Rd, Hillsboro, OR 97123','Pending'),
+(
+    (SELECT season_id FROM seasons WHERE show_year = 2025),
+    'Jumpstart Jubilee', '2025-02-21', '2025-02-25', 'Jumper Classic', 'Lexi Tran','206-555-4471', 'lexi.tran@fakeemail.com', 'Cedar Hollow Farm', '18210 244th Ave SE, Maple Valley, WA 98038', 'Posted'),
+(
+    (SELECT season_id FROM seasons WHERE show_year = 2025),
+    'Summer Sizzler', '2025-06-04', '2025-06-09', 'Equitation', 'Daniel Kruger', '350-555-9022', 'dan.kruger@fakeemail.com','Summit Hill Equestrian', '13215 Avondale Rd NE, Redmond, WA 98052', 'Pending'),
+
+(
+    (SELECT season_id FROM seasons WHERE show_year = 2025),
+    'Fall Finale', '2025-09-01', '2025-09-05', 'Hunter Derby', 'Tara Ellison', '541-555-7281', 'tara.ellison@fakeemail.com', 'High Desert Horse Park', '10985 Sage Valley Rd, Redmond, OR 97756', 'Pending'),
+
+(
+    (SELECT season_id FROM seasons WHERE show_year = 2025),
+    'Winter Wonderland', '2024-12-01', '2024-12-05', 'Hunter/Jumper', 'Laura Meyers', '458-555-3902', 'laura.meyers@fakeemail.com', 'Twin Fir Equestrian Grounds', '5620 Hunter Way, Creswell, OR 97426', 'Posted');
+
+
+
+
+
+
+
+
+
+-- TODO:
 -- Insert data into classes table
+
 -- Insert data into class results table
+
+-- Insert data into result disputes table
+
+-- Insert data into family members table
 
 
