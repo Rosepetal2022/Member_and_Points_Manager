@@ -23,7 +23,6 @@ CREATE TABLE horses (
     hands REAL,
     horse_size VARCHAR(255),
     breed VARCHAR(255) 
-
 );
 
 CREATE TABLE seasons (
