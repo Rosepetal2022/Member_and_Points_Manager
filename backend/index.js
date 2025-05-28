@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 const cors = require('cors');  
 const bcrypt = require('bcrypt');
-// const pool = require("./db");
+const pool = require('./db.js')
 
 const jwt = require('jsonwebtoken');
 
@@ -13,7 +13,13 @@ const jwt = require('jsonwebtoken');
 // const users = [{name: 'oyama'}, {name:'rachel'}, {name:'tessa'}]
 const users = []
 
-// const pool = require("./database.sql");
+pool.query('SELECT NOW()', (err, res) => {
+    if (err) {
+      console.error('DB connection failed:', err);
+    } else {
+      console.log('Connected to DB at:', res.rows[0].now);
+    }
+  });
 
 app.use(express.json());
 app.use(cors());
