@@ -39,6 +39,7 @@ CREATE TABLE seasons (
 -- Creating the table for shows
 CREATE TABLE shows (
     show_id SERIAL PRIMARY KEY,
+    show_name VARCHAR(255),
     season_id SERIAL REFERENCES seasons(season_id),
     show_start_date DATE,
     show_end_date DATE,
@@ -46,7 +47,8 @@ CREATE TABLE shows (
     show_contact_name VARCHAR(100),
     show_contact_phone VARCHAR(20),
     show_contact_email VARCHAR(50),
-    show_location VARCHAR(255),
+    show_venue VARCHAR(255),
+    show_address VARCHAR(255),
     result_status VARCHAR(50)
 );
 
@@ -76,6 +78,7 @@ CREATE TABLE horse_owners (
 -- Creating the table for class entries
 CREATE TABLE class_entries (
     entry_id SERIAL PRIMARY KEY,
+    class_id SERIAL REFERENCES classes(class_id),
     member_id SERIAL REFERENCES members(member_id),
     horse_id SERIAL REFERENCES horses(horse_id),
     entry_date DATE
