@@ -24,9 +24,8 @@ CREATE TABLE horses (
     sex VARCHAR(15),
     color VARCHAR(50),
     hands REAL,
-    horse_size VARCHAR(50),
-    breed VARCHAR(50) 
-
+    horse_size VARCHAR(255),
+    breed VARCHAR(255) 
 );
 
 -- Creating the table for seasons
