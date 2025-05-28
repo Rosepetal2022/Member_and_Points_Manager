@@ -18,6 +18,7 @@ const users = []
 app.use(express.json());
 app.use(cors());
 
+// goes to index.js in the routes folder
 const routes = require('./routes');
 app.use('/api', routes);
 
