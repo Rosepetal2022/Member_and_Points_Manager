@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { getAllHorses } from '../api/horseApi';
 import {
+    Container,
+    Row,
+    Col,
+    Card,
+    CardBody,
+    CardTitle,
+    ListGroup,
+    ListGroupItem,
     Modal,
     ModalHeader,
     ModalBody,
     ModalFooter,
-    Button
+    Button,
+    Spinner
 } from 'reactstrap';
 
 const groupRanges = [
@@ -36,18 +44,17 @@ const groupHorsesByRange = (horses) => {
     return grouped;
 };
 
-
 const PointsList = () => {
     const [horses, setHorses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedHorse, setSelectedHorse] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllHorses()
             .then((response) => {
                 setHorses(response.data);
-                console.log(response);
                 setLoading(false);
             })
             .catch((error) => {
@@ -55,7 +62,11 @@ const PointsList = () => {
                 setLoading(false);
             });
     }, []);
-    const navigate = useNavigate();
+
+    const handleHorseClick = (horse) => {
+        setSelectedHorse(horse);
+        setModalOpen(true);
+    };
 
     const handleViewRecord = () => {
         if (selectedHorse?.horse_id) {
@@ -63,37 +74,46 @@ const PointsList = () => {
         }
     };
 
-    const groupedHorses = groupHorsesByRange(horses);
-
-    const handleHorseClick = (horse) => {
-        setSelectedHorse(horse);
-        setModalOpen(true);
-    };
-
     const toggleModal = () => setModalOpen(!modalOpen);
 
+    const groupedHorses = groupHorsesByRange(horses);
+
     return (
-        <div>
-            <h1>Points List</h1>
-            {Object.entries(groupedHorses).map(([range, horsesInRange]) => (
-                <div key={range}>
-                    <h2>{range}</h2>
-                    {horsesInRange.length > 0 ? (
-                        horsesInRange.map((horse, index) => (
-                            <div
-                                key={index}
-                                className="show"
-                                style={{ cursor: 'pointer', padding: '5px' }}
-                                onClick={() => handleHorseClick(horse)}
-                            >
-                                <h3>{horse.horse_name}</h3>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No horses in this range.</p>
-                    )}
+        <Container className="mt-4">
+            <h1 className="mb-4">Points List</h1>
+            {loading ? (
+                <div className="text-center">
+                    <Spinner color="primary" />
                 </div>
-            ))}
+            ) : (
+                <Row>
+                    {Object.entries(groupedHorses).map(([range, horsesInRange]) => (
+                        <Col md={6} lg={4} key={range} className="mb-4">
+                            <Card>
+                                <CardBody>
+                                    <CardTitle tag="h5">{range}</CardTitle>
+                                    {horsesInRange.length > 0 ? (
+                                        <ListGroup flush>
+                                            {horsesInRange.map((horse, index) => (
+                                                <ListGroupItem
+                                                    key={index}
+                                                    action
+                                                    onClick={() => handleHorseClick(horse)}
+                                                    style={{ cursor: 'pointer' }}
+                                                >
+                                                    {horse.horse_name}
+                                                </ListGroupItem>
+                                            ))}
+                                        </ListGroup>
+                                    ) : (
+                                        <p className="text-muted">No horses in this range.</p>
+                                    )}
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            )}
 
             {/* Modal */}
             <Modal isOpen={modalOpen} toggle={toggleModal} centered size="lg">
@@ -104,7 +124,6 @@ const PointsList = () => {
                     <p><strong>Owner:</strong> {selectedHorse?.owner_name}</p>
                     <p><strong>Breed:</strong> {selectedHorse?.breed}</p>
                     <p><strong>Color:</strong> {selectedHorse?.color}</p>
-
                     <p>
                         <strong>Foal Date:</strong>{' '}
                         {selectedHorse?.foaled_date
@@ -115,17 +134,15 @@ const PointsList = () => {
                             })
                             : 'N/A'}
                     </p>
-
                     <p><strong>Hands:</strong> {selectedHorse?.hands}</p>
                     <p><strong>Sex:</strong> {selectedHorse?.sex}</p>
                 </ModalBody>
                 <ModalFooter className="d-flex justify-content-between">
                     <Button color="secondary" onClick={toggleModal}>Close</Button>
-                    <Button color="primary" onClick={handleViewRecord}>View Record</Button>
+                    <Button color="primary" onClick={handleViewRecord}>View Show Record</Button>
                 </ModalFooter>
-
             </Modal>
-        </div>
+        </Container>
     );
 };
 

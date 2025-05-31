@@ -1,25 +1,25 @@
-//TODO: Need to create an import for the connection to the DB, IDK how to do this yet
+import axios from 'axios';
+const API_URL = process.env.API_URL || 'http://localhost:8888/api';
 
-// Create a new member
-export const createMember = async (memberData) => {
-  const response = await api.post('/members', memberData);
-  return response.data;
+
+
+// Login function
+export const login = async (loginData) => {
+  try {
+    const response =axios.post(`${API_URL}/user/login`, loginData);
+    return response;
+  } catch (error) {
+    throw error.response?.data || { message: 'Login failed' };
+  }
 };
 
-// Get a single member by ID
-export const getMemberById = async (id) => {
-  const response = await api.get(`/members/${id}`);
-  return response.data;
+// Register function
+export const register = async (registerData) => {
+  try {
+    const response = axios.post(`${API_URL}/user/register`, registerData);
+    return response;
+  } catch (error) {
+    throw error.response?.data || { message: 'Registration failed' };
+  }
 };
 
-// Update a member
-export const updateMember = async (id, updatedData) => {
-  const response = await api.patch(`/members/${id}`, updatedData);
-  return response.data;
-};
-
-// Delete a member
-export const deleteMember = async (id) => {
-  const response = await api.delete(`/members/${id}`);
-  return response.data;
-};
