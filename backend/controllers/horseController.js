@@ -30,6 +30,19 @@ exports.getHorse = async (request, response) => {
   }
 };
 
+
+exports.getAllHorses = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const horse = await pool.query("SELECT horses.*, CONCAT(members.first_name, ' ', members.last_name) AS owner_name FROM Horses JOIN horse_owners ON horses.horse_id = horse_owners.horse_id JOIN Members ON Horse_owners.member_Id = Members.Member_Id ");
+    return response.json(horse.rows);
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({ message: 'Error fetching horse' });
+  }
+};
+
+
 // Update a horse
 exports.updateHorse = async (request, response) => {
   try {
