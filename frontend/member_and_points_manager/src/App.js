@@ -12,6 +12,7 @@ import EditHorse from './pages/EditHorse';
 import RemoveHorse from './pages/RemoveHorse';
 import TransferHorse from './pages/TransferHorse';
 import HorseRecord from './pages/HorseRecord';
+import Home from './pages/Home';
 import './App.css';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Header />
 
             <Routes>
+                <Route path='/' element={<Home/>}></Route>
                 <Route path="/Login" element={<Login />} />
                 <Route path="/MemberHome" element={<MemberHome />} />
                 <Route path="/AdminHome" element={<AdminHome />} />
