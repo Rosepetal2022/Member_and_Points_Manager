@@ -1,86 +1,101 @@
 import React, { useState } from 'react';
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button
+} from 'reactstrap';
 
-const AdminHome = () => {
-    const [formData, setFormData] = useState({
-        owner: '',
-        horseName: '',
-        showName: '',
-        division: '',
-        pointsEarned: '',
-    });
+const AdminDashboard = () => {
+  const [formData, setFormData] = useState({
+    owner: '',
+    horseName: '',
+    showName: '',
+    division: '',
+    pointsEarned: ''
+  });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle form submission logic here
-        console.log('Form Data:', formData);
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log('Form submitted:', formData);
+  };
 
-    return (
-        <div>
-            <h1>Admin Dashboard</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Owner:</label>
-                    <input
-                        type="text"
-                        name="owner"
-                        value={formData.owner}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Horse Name:</label>
-                    <input
-                        type="text"
-                        name="horseName"
-                        value={formData.horseName}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Show Name:</label>
-                    <input
-                        type="text"
-                        name="showName"
-                        value={formData.showName}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Division:</label>
-                    <input
-                        type="text"
-                        name="division"
-                        value={formData.division}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Points Earned:</label>
-                    <input
-                        type="number"
-                        name="pointsEarned"
-                        value={formData.pointsEarned}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    );
+  return (
+    <div className="d-flex justify-content-center mt-5">
+      <Card style={{ width: '100%', maxWidth: '600px' }}>
+        <CardBody>
+          <CardTitle tag="h3" className="text-center mb-4">
+            Admin Dashboard
+          </CardTitle>
+          <Form onSubmit={handleSubmit}>
+            <FormGroup>
+              <Label for="owner">Owner</Label>
+              <Input
+                type="text"
+                name="owner"
+                value={formData.owner}
+                onChange={handleChange}
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="horseName">Horse Name</Label>
+              <Input
+                type="text"
+                name="horseName"
+                value={formData.horseName}
+                onChange={handleChange}
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="showName">Show Name</Label>
+              <Input
+                type="text"
+                name="showName"
+                value={formData.showName}
+                onChange={handleChange}
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="division">Division</Label>
+              <Input
+                type="text"
+                name="division"
+                value={formData.division}
+                onChange={handleChange}
+                required
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="pointsEarned">Points Earned</Label>
+              <Input
+                type="number"
+                name="pointsEarned"
+                value={formData.pointsEarned}
+                onChange={handleChange}
+                required
+              />
+            </FormGroup>
+            <Button color="primary" type="submit" block>
+              Submit
+            </Button>
+          </Form>
+        </CardBody>
+      </Card>
+    </div>
+  );
 };
 
-export default AdminHome;
+export default AdminDashboard;

@@ -10,6 +10,7 @@ const horseRoutes = require('./horseRoutes');
 const memberRoutes = require('./memberRoutes');
 const seasonRoutes = require('./seasonRoutes');
 const showRoutes = require('./showRoutes');
+const authRoutes = require("./authRoutes");
 
 router.use('/classEntry', classEntryRoutes);
 router.use('/classes', classesRoutes);
@@ -20,5 +21,6 @@ router.use('/horse', horseRoutes);
 router.use('/member', memberRoutes);
 router.use('/seasons', seasonRoutes);
 router.use('/shows', showRoutes);
+router.use('/user', authRoutes);
 
 module.exports = router;

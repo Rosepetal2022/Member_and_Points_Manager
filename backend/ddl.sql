@@ -13,7 +13,6 @@ CREATE TABLE members (
     zip_code INT,
     phone_number varchar(20),
     member_status VARCHAR(50)
-
 );
 
 -- Creating the table for horses
