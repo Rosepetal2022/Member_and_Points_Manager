@@ -166,20 +166,136 @@ VALUES (
     'Winter Wonderland', '2024-12-01', '2024-12-05', 'Hunter/Jumper', 'Laura Meyers', '458-555-3902', 'laura.meyers@fakeemail.com', 'Twin Fir Equestrian Grounds', '5620 Hunter Way, Creswell, OR 97426', 'Posted');
 
 
+-- Insert Data into Classes table
+-- Winter Wonderland Classes
+INSERT INTO classes (show_id, division_id, class_name)
+VALUES 
+((SELECT show_id FROM shows WHERE show_name = 'Winter Wonderland'),
+ (SELECT division_id FROM divisions WHERE division_name = 'Junior Hunter'), 'Junior Hunter O/F'),
+
+((SELECT show_id FROM shows WHERE show_name = 'Winter Wonderland'),
+ (SELECT division_id FROM divisions WHERE division_name = 'Childrens Equitation'), 'Eq Flat'),
+
+((SELECT show_id FROM shows WHERE show_name = 'Winter Wonderland'),
+ (SELECT division_id FROM divisions WHERE division_name = 'Low Childrens Hunter'), 'Low Hunter U/S');
+
+-- Jumpstart Jubilee Classes
+INSERT INTO classes (show_id, division_id, class_name)
+VALUES 
+((SELECT show_id FROM shows WHERE show_name = 'Jumpstart Jubilee'),
+ (SELECT division_id FROM divisions WHERE division_name = '.80m Jumper'), '.80m Table II'),
+
+((SELECT show_id FROM shows WHERE show_name = 'Jumpstart Jubilee'),
+ (SELECT division_id FROM divisions WHERE division_name = '1.0m Jumper'), '1.0m Power & Speed'),
+
+((SELECT show_id FROM shows WHERE show_name = 'Jumpstart Jubilee'),
+ (SELECT division_id FROM divisions WHERE division_name = '.70m Jumper'), '.70m Table IV');
+
+-- Spring Fling Classes
+INSERT INTO classes (show_id, division_id, class_name)
+VALUES 
+((SELECT show_id FROM shows WHERE show_name = 'Spring Fling'),
+ (SELECT division_id FROM divisions WHERE division_name = 'Adult Hunter'), 'Adult Hunter O/F'),
+
+((SELECT show_id FROM shows WHERE show_name = 'Spring Fling'),
+ (SELECT division_id FROM divisions WHERE division_name = 'Amateur Owner Hunter'), 'AO Hunter U/S'),
+
+((SELECT show_id FROM shows WHERE show_name = 'Spring Fling'),
+ (SELECT division_id FROM divisions WHERE division_name = 'Junior Equitation'), 'Junior Eq Flat');
 
 
+ -- Insert Data into Class Entries Table
+ -- Entries for Winter Wonderland
+INSERT INTO class_entries (class_id, member_id, horse_id, entry_date)
+VALUES
+((SELECT class_id FROM classes WHERE class_name = 'Junior Hunter O/F' AND show_id = (SELECT show_id FROM shows WHERE show_name = 'Winter Wonderland')),
+ (SELECT member_id FROM members WHERE first_name = 'Tom' AND last_name = 'Smith'),
+ (SELECT horse_id FROM horses WHERE horse_name = 'Cerafina'), '2024-11-15'),
 
+((SELECT class_id FROM classes WHERE class_name = 'Eq Flat' AND show_id = (SELECT show_id FROM shows WHERE show_name = 'Winter Wonderland')),
+ (SELECT member_id FROM members WHERE first_name = 'David' AND last_name = 'Lee'),
+ (SELECT horse_id FROM horses WHERE horse_name = 'Starlight'), '2024-11-16'),
 
+((SELECT class_id FROM classes WHERE class_name = 'Low Hunter U/S' AND show_id = (SELECT show_id FROM shows WHERE show_name = 'Winter Wonderland')),
+ (SELECT member_id FROM members WHERE first_name = 'Tina' AND last_name = 'Blue'),
+ (SELECT horse_id FROM horses WHERE horse_name = 'Galaxy'), '2024-11-17');
 
+-- Entries for Jumpstart Jubilee
+INSERT INTO class_entries (class_id, member_id, horse_id, entry_date)
+VALUES
+((SELECT class_id FROM classes WHERE class_name = '.80m Table II' AND show_id = (SELECT show_id FROM shows WHERE show_name = 'Jumpstart Jubilee')),
+ (SELECT member_id FROM members WHERE first_name = 'Emily' AND last_name = 'Clark'),
+ (SELECT horse_id FROM horses WHERE horse_name = 'Sunshine'), '2025-02-10'),
 
+((SELECT class_id FROM classes WHERE class_name = '1.0m Power & Speed' AND show_id = (SELECT show_id FROM shows WHERE show_name = 'Jumpstart Jubilee')),
+ (SELECT member_id FROM members WHERE first_name = 'Peter' AND last_name = 'Purple'),
+ (SELECT horse_id FROM horses WHERE horse_name = 'Meteor'), '2025-02-11'),
 
--- TODO:
--- Insert data into classes table
+((SELECT class_id FROM classes WHERE class_name = '.70m Table IV' AND show_id = (SELECT show_id FROM shows WHERE show_name = 'Jumpstart Jubilee')),
+ (SELECT member_id FROM members WHERE first_name = 'Quinn' AND last_name = 'Gray'),
+ (SELECT horse_id FROM horses WHERE horse_name = 'Nebula'), '2025-02-12');
 
--- Insert data into class results table
+-- Entries for Spring Fling
+INSERT INTO class_entries (class_id, member_id, horse_id, entry_date)
+VALUES
+((SELECT class_id FROM classes WHERE class_name = 'Adult Hunter O/F' AND show_id = (SELECT show_id FROM shows WHERE show_name = 'Spring Fling')),
+ (SELECT member_id FROM members WHERE first_name = 'Laura' AND last_name = 'Green'),
+ (SELECT horse_id FROM horses WHERE horse_name = 'Aurora'), '2025-03-15'),
 
--- Insert data into result disputes table
+((SELECT class_id FROM classes WHERE class_name = 'AO Hunter U/S' AND show_id = (SELECT show_id FROM shows WHERE show_name = 'Spring Fling')),
+ (SELECT member_id FROM members WHERE first_name = 'Michael' AND last_name = 'Smith'),
+ (SELECT horse_id FROM horses WHERE horse_name = 'Twilight'), '2025-03-16'),
 
--- Insert data into family members table
+((SELECT class_id FROM classes WHERE class_name = 'Junior Eq Flat' AND show_id = (SELECT show_id FROM shows WHERE show_name = 'Spring Fling')),
+ (SELECT member_id FROM members WHERE first_name = 'Jane' AND last_name = 'Smith'),
+ (SELECT horse_id FROM horses WHERE horse_name = 'Cerafina'), '2025-03-17');
 
+-- Insert Data into Class Results Table
+-- Winter Wonderland Results
+INSERT INTO class_results (entry_id, place, points_earned, money_awarded)
+VALUES
+((SELECT entry_id FROM class_entries
+  WHERE horse_id = (SELECT horse_id FROM horses WHERE horse_name = 'Cerafina')
+    AND class_id = (SELECT class_id FROM classes WHERE class_name = 'Junior Hunter O/F'
+                    AND show_id = (SELECT show_id FROM shows WHERE show_name = 'Winter Wonderland'))),
+ 1, 10, 0),
 
+((SELECT entry_id FROM class_entries
+  WHERE horse_id = (SELECT horse_id FROM horses WHERE horse_name = 'Starlight')),
+ 2, 8, 0),
+
+((SELECT entry_id FROM class_entries
+  WHERE horse_id = (SELECT horse_id FROM horses WHERE horse_name = 'Galaxy')),
+ 3, 6, 0);
+
+-- Jumpstart Jubilee Results
+INSERT INTO class_results (entry_id, place, points_earned, money_awarded)
+VALUES
+((SELECT entry_id FROM class_entries
+  WHERE horse_id = (SELECT horse_id FROM horses WHERE horse_name = 'Sunshine')),
+ 1, 10, 500.00),
+
+((SELECT entry_id FROM class_entries
+  WHERE horse_id = (SELECT horse_id FROM horses WHERE horse_name = 'Meteor')),
+ 2, 8, 300.00),
+
+((SELECT entry_id FROM class_entries
+  WHERE horse_id = (SELECT horse_id FROM horses WHERE horse_name = 'Nebula')),
+ 3, 6, 150.00);
+
+-- Spring Fling Results
+INSERT INTO class_results (entry_id, place, points_earned, money_awarded)
+VALUES
+((SELECT entry_id FROM class_entries
+  WHERE horse_id = (SELECT horse_id FROM horses WHERE horse_name = 'Aurora')),
+ 1, 10, 0),
+
+((SELECT entry_id FROM class_entries
+  WHERE horse_id = (SELECT horse_id FROM horses WHERE horse_name = 'Twilight')),
+ 2, 8, 0),
+
+((SELECT entry_id FROM class_entries
+  WHERE horse_id = (SELECT horse_id FROM horses WHERE horse_name = 'Cerafina')
+    AND class_id = (SELECT class_id FROM classes WHERE class_name = 'Junior Eq Flat'
+                    AND show_id = (SELECT show_id FROM shows WHERE show_name = 'Spring Fling'))),
+ 3, 6, 0);
