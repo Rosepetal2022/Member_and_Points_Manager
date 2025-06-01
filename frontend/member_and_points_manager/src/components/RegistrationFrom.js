@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { FormGroup, Label, Input, Button } from 'reactstrap';
-import api from '../api/api';
+import { register } from '../api/userApi';
 
 const RegisterForm = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -14,7 +14,8 @@ const RegisterForm = ({ onSuccess }) => {
     us_state: '',
     zip_code: '',
     phone_number: '',
-    member_status: ''
+    member_status: '',
+    hash_password: ''
   });
 
   const handleChange = (e) => {
@@ -25,7 +26,7 @@ const RegisterForm = ({ onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/register', formData);
+      await register(formData);
       alert('Registration successful!');
       if (onSuccess) onSuccess();
     } catch (err) {
@@ -46,7 +47,8 @@ const RegisterForm = ({ onSuccess }) => {
         { label: 'State (2-letter)', name: 'us_state', type: 'text', maxLength: 2 },
         { label: 'ZIP Code', name: 'zip_code', type: 'number' },
         { label: 'Phone Number', name: 'phone_number', type: 'tel' },
-        { label: 'Member Status', name: 'member_status', type: 'text' }
+        { label: 'Member Status', name: 'member_status', type: 'text' },
+        { label: 'Password', name: 'hash_password', type: 'password' }
       ].map(({ label, name, type, maxLength }) => (
         <FormGroup key={name}>
           <Label for={name}>{label}</Label>

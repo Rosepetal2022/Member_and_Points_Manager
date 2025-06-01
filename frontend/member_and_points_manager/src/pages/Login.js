@@ -5,7 +5,7 @@ import {
     FormGroup, Label, Input, Button, Modal, ModalHeader, ModalBody
 } from 'reactstrap';
 import AuthService from '../utils/auth';
-import api from '../api/api'; 
+import { login } from '../api/userApi';
 
 const Login = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -13,7 +13,7 @@ const Login = () => {
     const toggleModal = () => setModalOpen(!modalOpen);
 
     const [formData, setFormData] = useState({
-        email: '',
+        email_address: '',
         password: ''
     });
 
@@ -27,7 +27,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await api.post('/login', formData);
+            const res = await login(formData);
             AuthService.login(res.data.token);
         } catch (err) {
             console.error('Login failed:', err);
@@ -47,10 +47,10 @@ const Login = () => {
                             <Label for="email">Email</Label>
                             <Input
                                 id="email"
-                                name="email"
+                                name="email_address"
                                 placeholder="email"
                                 type="email"
-                                value={formData.email}
+                                value={formData.email_address}
                                 onChange={handleChange}
                                 required
                             />
