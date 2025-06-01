@@ -1,1 +1,5 @@
 runtime: nodejs20
+service: backend
+
+# env_variables:
+#   REACT_APP_API_URL: "https://your-actual-production-api.com/api"
