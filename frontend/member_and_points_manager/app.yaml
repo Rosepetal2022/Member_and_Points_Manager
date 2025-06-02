@@ -1,0 +1,5 @@
+runtime: nodejs20
+# service: frontend
+
+env_variables:
+  REACT_APP_API_URL: "https://backend-dot-member-and-points-manager.uw.r.appspot.com/api"
