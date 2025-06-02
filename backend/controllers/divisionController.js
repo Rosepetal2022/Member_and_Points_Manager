@@ -66,3 +66,13 @@ exports.deleteDivision = async (request, response) => {
     return response.status(500).json({ message: 'Error deleting division' });
   }
 };
+
+exports.getAllDivisions = async (request, response) => {
+  try {
+    const division = await pool.query("SELECT * FROM divisions");
+    return response.json(division.rows);
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({ message: 'Error fetching division' });
+  }
+};

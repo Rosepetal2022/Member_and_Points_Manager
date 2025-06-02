@@ -11,6 +11,7 @@ const memberRoutes = require('./memberRoutes');
 const seasonRoutes = require('./seasonRoutes');
 const showRoutes = require('./showRoutes');
 const authRoutes = require("./authRoutes");
+const adminRoutes = require("./adminRoutes");
 
 router.use('/classEntry', classEntryRoutes);
 router.use('/classes', classesRoutes);
@@ -22,5 +23,6 @@ router.use('/member', memberRoutes);
 router.use('/seasons', seasonRoutes);
 router.use('/shows', showRoutes);
 router.use('/user', authRoutes);
+router.use('/admin', adminRoutes)
 
 module.exports = router;

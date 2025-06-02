@@ -13,7 +13,9 @@ import RemoveHorse from './pages/RemoveHorse';
 import TransferHorse from './pages/TransferHorse';
 import HorseRecord from './pages/HorseRecord';
 import Home from './pages/Home';
+import Logout from './pages/Logout';
 import './App.css';
+
 
 function App() {
     return (
@@ -23,6 +25,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Home/>}></Route>
                 <Route path="/Login" element={<Login />} />
+                <Route path="/Logout" element={<Logout />} />
                 <Route path="/MemberHome" element={<MemberHome />} />
                 <Route path="/AdminHome" element={<AdminHome />} />
                 <Route path="/Points" element={<PointsList />} />

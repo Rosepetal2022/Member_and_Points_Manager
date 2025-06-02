@@ -1,11 +1,11 @@
 // middleware/auth.js
 const jwt = require('jsonwebtoken');
 
-const secret = 'mysecretsshhhhh';
+const secret = process.env.JWT_SECRET || 'mysecretsshhhhh';
 const expiration = '2h';
 
-function signToken({ username, email, _id }) {
-  const payload = { username, email, _id };
+function signToken({ member_id, email_address }) {
+  const payload = { member_id, email_address };
   return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
 }
 
