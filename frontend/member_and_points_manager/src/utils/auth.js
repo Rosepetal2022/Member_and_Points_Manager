@@ -3,9 +3,20 @@ import { jwtDecode } from 'jwt-decode';
 
 class AuthService {
     // retrieve data saved in token
-    getProfile(){
+    getProfile() {
         return jwtDecode(this.getToken());
     }
+
+    //Gets the member_id from the payload
+    getUserId() {
+        try {
+            const profile = this.getProfile();
+            return profile.member_id;
+        } catch (err) {
+            return null;
+        }
+    }
+
 
     // check if the user is still logged in
     loggedIn() {
@@ -19,14 +30,14 @@ class AuthService {
     isTokenExpired(token) {
         try {
             const decoded = jwtDecode(token);
-            if(decoded.exp < Date.now() / 1000) {
+            if (decoded.exp < Date.now() / 1000) {
                 return true;
             } else {
                 return false;
             }
         } catch (err) {
             return false;
-            
+
         }
     }
     // retrieve token from localStorage
@@ -40,7 +51,7 @@ class AuthService {
         // Saves user token to localStorage
         localStorage.setItem('id_token', idToken);
 
-        window.location.assign('/');
+        window.location.assign('/MemberHome');
     }
 
     // clear token from localStorage and force logout with reload

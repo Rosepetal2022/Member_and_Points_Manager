@@ -81,3 +81,16 @@ exports.deleteMember = async (request, response) => {
         return response.status(500).json({ message: 'Error deleting member' });
     }
 };
+
+exports.getAllMembers = async (req, res) => {
+  try {
+    const allMembers = await pool.query("SELECT * FROM Members");
+    return res.status(200).json({
+      message: 'Members retrieved successfully',
+      data: allMembers.rows
+    });
+  } catch (error) {
+    console.error("Error fetching all members: ", error);
+    return res.status(500).json({ message: 'Error fetching all members' });
+  }
+};

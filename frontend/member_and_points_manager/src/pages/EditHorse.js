@@ -1,94 +1,187 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-  Card, CardBody, CardTitle, Form, FormGroup, Label, Input, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem
+    Card, CardBody, CardTitle, Form, FormGroup, Label, Input, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
+import { getHorsesByMemberId, updateHorse } from '../api/horseApi';
+import Auth from '../utils/auth';
 
 const EditHorse = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [sexDropdownOpen, setSexDropdownOpen] = useState(false);
-  const [selectedHorse, setSelectedHorse] = useState('');
-  const [sex, setSex] = useState('');
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [sexDropdownOpen, setSexDropdownOpen] = useState(false);
+    const [selectedHorse, setSelectedHorse] = useState(null);
+    const [horses, setHorses] = useState([]);
+    const navigate = useNavigate();
 
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
-  const toggleSexDropdown = () => setSexDropdownOpen(!sexDropdownOpen);
+    // Form field states
+    const [horseName, setHorseName] = useState('');
+    const [foaledDate, setFoaledDate] = useState('');
+    const [sex, setSex] = useState('');
+    const [color, setColor] = useState('');
+    const [hands, setHands] = useState('');
+    const [horseSize, setHorseSize] = useState('');
+    const [breed, setBreed] = useState('');
 
-  const handleHorseSelect = (horse) => {
-    setSelectedHorse(horse);
-    // You would populate the form fields here based on the selected horse
-  };
+    const userId = Auth.getUserId();
 
-  const handleSexSelect = (value) => {
-    setSex(value);
-  };
+    const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+    const toggleSexDropdown = () => setSexDropdownOpen(!sexDropdownOpen);
 
-  return (
-    <Card id="horse--main-card">
-      <CardBody>
-        <CardTitle tag="h5">Update Horse</CardTitle>
-        <Form>
-          <FormGroup>
-            <Label for="horseSelect">Select Horse</Label>
-            <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-              <DropdownToggle caret>
-                {selectedHorse || 'Choose a horse'}
-              </DropdownToggle>
-              <DropdownMenu>
-                {/* Placeholder items — replace with dynamic list */}
-                <DropdownItem onClick={() => handleHorseSelect('Horse 1')}>Horse 1</DropdownItem>
-                <DropdownItem onClick={() => handleHorseSelect('Horse 2')}>Horse 2</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </FormGroup>
+    useEffect(() => {
+        getHorsesByMemberId(userId)
+            .then(response => {
+                setHorses(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching horses", error);
+            });
+    }, [userId]);
 
-          <FormGroup>
-            <Label for="horseName">Horse Name</Label>
-            <Input type="text" id="horseName" placeholder="Enter horse name" />
-          </FormGroup>
+    const handleHorseSelect = (horse) => {
+        setSelectedHorse(horse);
+        setHorseName(horse.horse_name || '');
+        setFoaledDate(horse.foaled_date ? horse.foaled_date.split('T')[0] : '');
+        setSex(horse.sex || '');
+        setColor(horse.color || '');
+        setHands(horse.hands || '');
+        setHorseSize(horse.horse_size || '');
+        setBreed(horse.breed || '');
+    };
 
-          <FormGroup>
-            <Label for="foaledDate">Foaled Date</Label>
-            <Input type="date" id="foaledDate" />
-          </FormGroup>
+    const handleSexSelect = (value) => {
+        setSex(value);
+    };
 
-          <FormGroup>
-            <Label for="sex">Sex</Label>
-            <Dropdown isOpen={sexDropdownOpen} toggle={toggleSexDropdown}>
-              <DropdownToggle caret>
-                {sex || 'Select Sex'}
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem onClick={() => handleSexSelect('Mare')}>Mare</DropdownItem>
-                <DropdownItem onClick={() => handleSexSelect('Gelding')}>Gelding</DropdownItem>
-                <DropdownItem onClick={() => handleSexSelect('Stallion')}>Stallion</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </FormGroup>
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-          <FormGroup>
-            <Label for="color">Color</Label>
-            <Input type="text" id="color" placeholder="Enter color" />
-          </FormGroup>
+        if (!selectedHorse) {
+            alert('Please select a horse to update.');
+            return;
+        }
 
-          <FormGroup>
-            <Label for="hands">Height (hands)</Label>
-            <Input type="number" step="0.1" id="hands" placeholder="e.g., 15.2" />
-          </FormGroup>
+        const formData = {
+            horse_name: horseName,
+            foaled_date: foaledDate,
+            sex: sex,
+            color: color,
+            hands: hands,
+            horse_size: horseSize,
+            breed: breed
+        };
 
-          <FormGroup>
-            <Label for="horseSize">Horse Size</Label>
-            <Input type="text" id="horseSize" placeholder="e.g., Medium" />
-          </FormGroup>
+        try {
+            await updateHorse(selectedHorse.horse_id, formData);
+            alert('Horse updated successfully!');
+            navigate("/MemberHome")
+        } catch (error) {
+            console.error('Error updating horse:', error);
+            alert('Failed to update horse.');
+        }
+    };
 
-          <FormGroup>
-            <Label for="breed">Breed</Label>
-            <Input type="text" id="breed" placeholder="e.g., Quarter Horse" />
-          </FormGroup>
 
-          <Button color="primary">Update Horse</Button>
-        </Form>
-      </CardBody>
-    </Card>
-  );
+    return (
+        <Card id="horse--main-card">
+            <CardBody>
+                <CardTitle tag="h5">Update Horse</CardTitle>
+                <Form onSubmit={handleSubmit}>
+                    <FormGroup>
+                        <Label for="horseSelect">Select Horse</Label>
+                        <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+                            <DropdownToggle caret>
+                                {selectedHorse?.horse_name || 'Choose a horse'}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                {horses.map((horse) => (
+                                    <DropdownItem key={horse.horse_id} onClick={() => handleHorseSelect(horse)}>
+                                        {horse.horse_name}
+                                    </DropdownItem>
+                                ))}
+                            </DropdownMenu>
+                        </Dropdown>
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="horseName">Horse Name</Label>
+                        <Input
+                            type="text"
+                            id="horseName"
+                            value={horseName}
+                            onChange={(e) => setHorseName(e.target.value)}
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="foaledDate">Foaled Date</Label>
+                        <Input
+                            type="date"
+                            id="foaledDate"
+                            value={foaledDate}
+                            onChange={(e) => setFoaledDate(e.target.value)}
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="sex">Sex</Label>
+                        <Dropdown isOpen={sexDropdownOpen} toggle={toggleSexDropdown}>
+                            <DropdownToggle caret>
+                                {sex || 'Select Sex'}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem onClick={() => handleSexSelect('Mare')}>Mare</DropdownItem>
+                                <DropdownItem onClick={() => handleSexSelect('Gelding')}>Gelding</DropdownItem>
+                                <DropdownItem onClick={() => handleSexSelect('Stallion')}>Stallion</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="color">Color</Label>
+                        <Input
+                            type="text"
+                            id="color"
+                            value={color}
+                            onChange={(e) => setColor(e.target.value)}
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="hands">Height (hands)</Label>
+                        <Input
+                            type="number"
+                            step="0.1"
+                            id="hands"
+                            value={hands}
+                            onChange={(e) => setHands(e.target.value)}
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="horseSize">Horse Size</Label>
+                        <Input
+                            type="text"
+                            id="horseSize"
+                            value={horseSize}
+                            onChange={(e) => setHorseSize(e.target.value)}
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="breed">Breed</Label>
+                        <Input
+                            type="text"
+                            id="breed"
+                            value={breed}
+                            onChange={(e) => setBreed(e.target.value)}
+                        />
+                    </FormGroup>
+
+                    <Button color="primary">Update Horse</Button>
+                </Form>
+            </CardBody>
+        </Card>
+    );
 };
 
 export default EditHorse;

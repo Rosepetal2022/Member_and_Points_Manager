@@ -93,3 +93,13 @@ exports.deleteShow = async (request, response) => {
         return response.status(500).json({ message: 'Error deleting show' });
     }
 };
+
+exports.getAllShows = async(req, res) => {
+     try {
+        const show = await pool.query("SELECT * FROM shows");
+        return res.status(200).json(show.rows);
+    } catch (error) {
+        console.error('Error fetching show:', error);
+        return res.status(500).json({ message: 'Error fetching show' });
+    }
+}

@@ -23,3 +23,5 @@ export const register = async (registerData) => {
   }
 };
 
+export const getMemberById = (id) => axios.get(`${API_URL}/member/${id}`);
+export const getAllMembers = () => axios.get(`${API_URL}/member/getAllMembers`);

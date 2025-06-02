@@ -1,9 +1,11 @@
 
-import React, { useState } from 'react';
+import React, { useState, useNavigate } from 'react';
 import { FormGroup, Label, Input, Button } from 'reactstrap';
 import { register } from '../api/userApi';
 
 const RegisterForm = ({ onSuccess }) => {
+    const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -29,6 +31,7 @@ const RegisterForm = ({ onSuccess }) => {
       await register(formData);
       alert('Registration successful!');
       if (onSuccess) onSuccess();
+      navigate('/MemberHome');
     } catch (err) {
       console.error('Registration failed:', err);
       alert('Registration failed. Try again.');

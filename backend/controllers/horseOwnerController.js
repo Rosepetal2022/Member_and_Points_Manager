@@ -24,17 +24,26 @@ exports.getHorse = async (request, response) => {
 };
 
 exports.updateHorse = async (request, response) => {
+  const horseId = request.params.id;
+  const { member_id } = request.body;
+
   try {
-    const horse = await HorseModel.updateHorse(request.params.id, request.body);
-    if (!horse) {
-      return response.status(404).json({ message: 'Horse not found' });
+    const result = await db.query(
+      'UPDATE horse_owner SET member_id = $1 WHERE horse_id = $2 RETURNING *',
+      [member_id, horseId]
+    );
+
+    if (result.rows.length === 0) {
+      return response.status(404).json({ message: 'Horse not found or no ownership record exists' });
     }
-    return response.status(200).json({ message: 'Horse updated', horse });
+
+    return response.status(200).json({ message: 'Horse ownership updated', horse: result.rows[0] });
   } catch (error) {
-    console.error('Error updating horse:', error);
-    return response.status(500).json({ message: 'Error updating horse' });
+    console.error('Error updating horse ownership:', error);
+    return response.status(500).json({ message: 'Error updating horse ownership' });
   }
 };
+
 
 exports.deleteHorse = async (request, response) => {
   try {
