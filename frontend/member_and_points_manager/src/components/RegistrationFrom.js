@@ -1,5 +1,7 @@
 
-import React, { useState, useNavigate } from 'react';
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+// import React, { useState, useNavigate } from 'react';
 import { FormGroup, Label, Input, Button } from 'reactstrap';
 import { register } from '../api/userApi';
 

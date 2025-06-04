@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 const cors = require('cors');  
 const bcrypt = require('bcrypt');
-const pool = require('./db.js')
+const pool = require('./db.js');
 
 const jwt = require('jsonwebtoken');
 
